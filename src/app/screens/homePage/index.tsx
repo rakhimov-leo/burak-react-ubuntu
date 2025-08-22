@@ -29,6 +29,8 @@ export default function Homepage() {
   const {popularDishes} = useSelector(PopularDishesRetriever);
   // Selector: Store => Data
 
+
+
   useEffect(() => {
     //Backend server data request => Data
     // Slice: Data => Store
