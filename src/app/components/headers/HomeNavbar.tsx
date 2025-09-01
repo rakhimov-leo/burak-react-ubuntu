@@ -2,28 +2,32 @@ import { Box, Button, Container, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Basket from "./Basket";
 import React, { useEffect, useState } from "react";
+import { CartItem } from "../../../lib/types/search";
 
-export default function HomeNavbar() {
-const authmember = null;
-const [count, setCount] = useState<number>(0);
-const [value, setvalue] = useState<boolean>(true);
+interface HomeNavbarProps {
+  cartItems: CartItem[];
+}
 
-useEffect(() => {
-console.log("componentDidMount"); //DATA FETCH
-setCount(count + 1 );
+export default function HomeNavbar(props: HomeNavbarProps) {
+  const { cartItems } = props;
+  const authmember = null;
+  const [count, setCount] = useState<number>(0);
+  const [value, setvalue] = useState<boolean>(true);
 
-return () => {
-  console.log("componentWillUnmount");
-};
-}, [value]);
+  useEffect(() => {
+    console.log("componentDidMount"); //DATA FETCH
+    setCount(count + 1);
 
-//** HANDLERS **/
+    return () => {
+      console.log("componentWillUnmount");
+    };
+  }, [value]);
 
-const buttonHandler = () => {
-  setvalue(!value);
-};
+  //** HANDLERS **/
 
-
+  const buttonHandler = () => {
+    setvalue(!value);
+  };
 
   return (
     <div className="home-navbar">
@@ -64,7 +68,7 @@ const buttonHandler = () => {
                 Help
               </NavLink>
             </Box>
-            <Basket />
+            <Basket cartItems={cartItems} />
             {!authmember ? (
               <Box>
                 <Button variant="contained" className="login-button">
@@ -89,9 +93,10 @@ const buttonHandler = () => {
             <Box className={"srvice-txt"}>{count} hours service</Box>
             <Box className={"signup"}>
               {!authmember ? (
-                <Button variant={"contained"} 
-                className={"signup-button"} 
-                onClick={buttonHandler} 
+                <Button
+                  variant={"contained"}
+                  className={"signup-button"}
+                  onClick={buttonHandler}
                 >
                   SIGN UP
                 </Button>

@@ -1,7 +1,6 @@
 // @ts-nocheck
 import React, { Component } from "react";
 
-
 class Test extends React.Component {
   constructor(props) {
     super(props);
@@ -13,20 +12,20 @@ class Test extends React.Component {
     };
   }
   changeDetail = () => {
-    this.setState({ 
-        color: "blue",
-        brand: "Tesla",
-        model: "Model S",
-        year: 2023,
+    this.setState({
+      color: "blue",
+      brand: "Tesla",
+      model: "Model S",
+      year: 2023,
     });
   };
 
   componentDidMount() {
-console.log("componentDidMount");      
+    console.log("componentDidMount");
   }
 
   componentWillUnmount() {
-      console.log("componentWillUnmount");
+    console.log("componentWillUnmount");
   }
 
   componentDidUpdate() {}
@@ -36,12 +35,12 @@ console.log("componentDidMount");
       <div>
         <h1>My {this.state.brand}</h1>
         <p>
-          color: {this.state.color} - Model: {this.state.model} from{" "} {this.state.year}.
+          color: {this.state.color} - Model: {this.state.model} from{" "}
+          {this.state.year}.
         </p>
-        <button
-          type="button"
-          onClick={this.changeDetail}
-        >Change Detail</button>
+        <button type="button" onClick={this.changeDetail}>
+          Change Detail
+        </button>
       </div>
     );
   }
