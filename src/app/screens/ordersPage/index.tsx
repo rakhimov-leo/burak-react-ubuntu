@@ -1,6 +1,6 @@
 import TabContext from "@mui/lab/TabContext";
 import { Box, Button, Container, Stack } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import PausedOrders from "./PausedOrders";
@@ -12,7 +12,9 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
 import "../../../css/order.css";
-import { Order } from "../../../lib/types/order";
+import { Order, OrderInquiry } from "../../../lib/types/order";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import OrderService from "../../services/OrderService";
 
 // ** REDUX SLICE & SELECTOR  **//
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -25,6 +27,32 @@ export default function OrdersPage() {
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
   const [value, setValue] = useState("1");
+  const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
+    page: 1,
+    limit: 5,
+    orderStatus: OrderStatus.PAUSE,
+  });
+
+  useEffect(() => {
+    const order = new OrderService();
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [orderInquiry]);
+
+  //** HANDLERS **/
 
   const handleChange = (e: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -76,7 +104,11 @@ export default function OrdersPage() {
             <Divider height="1" width="300" bg="black" />
 
             <Stack className="user-detail-bottom">
-              <img className="user-location-img" src="/img/location.png" />
+              <img
+                className="user-location-img"
+                src="/img/location.png"
+                alt=""
+              />
               <p className="user-location-p">Seville, Russia</p>
             </Stack>
           </Stack>
@@ -93,10 +125,10 @@ export default function OrdersPage() {
               <Box className="customer-name">Justin Robertson</Box>
             </Stack>
             <Stack className="cards-img">
-              <img className="cards" src="/img/western-union.png" />
-              <img className="cards" src="/img/master-card.png" />
-              <img className="cards" src="/img/paypal.png" />
-              <img className="cards" src="/img/visa.png" />
+              <img className="cards" src="/img/western-union.png" alt="" />
+              <img className="cards" src="/img/master-card.png" alt="" />
+              <img className="cards" src="/img/paypal.png" alt="" />
+              <img className="cards" src="/img/visa.png" alt="" />
             </Stack>
           </Stack>
         </Stack>
