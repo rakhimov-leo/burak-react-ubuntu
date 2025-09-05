@@ -17,6 +17,8 @@ import OrderService from "../../services/OrderService";
 import { useGlobals } from "../../hooks/useGlobals";
 import "../../../css/order.css";
 import { useHistory } from "react-router-dom";
+import { serverApi } from "../../../lib/config";
+import { MemberType } from "../../../lib/enums/member.enum";
 
 // ** REDUX SLICE & SELECTOR  **//
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -100,22 +102,38 @@ export default function OrdersPage() {
         <Stack className={"order-right"}>
           <Stack className="user-detail">
             <Stack className="user-image">
-              <img className="user-img" src="/img/justin.webp" />
+              <img
+                className="user-img"
+                src={
+                  authMember?.memberImage
+                    ? `${serverApi}/${authMember.memberImage}`
+                    : "/icons/default-user.svg"
+                }
+              />
               {/* <img className="user-perspective" src="img/User_perspective_matte_s 1.png" /> */}
 
-              <Box className={"user-name"}>Justin</Box>
-              <Box className={"user-ident"}> USER</Box>
+              <Box className={"user-name"}>{authMember?.memberNick}</Box>
+              <Box className={"user-ident"}> {authMember?.memberType}</Box>
             </Stack>
 
             <Divider height="1" width="300" bg="black" />
 
             <Stack className="user-detail-bottom">
               <img
-                className="user-location-img"
+                className={
+                  authMember?.memberType === MemberType.RESTAURANT
+                    ? "/icons/restaurant.svg"
+                    : "/icons/user-badge.svg"
+                }
                 src="/img/location.png"
                 alt=""
               />
-              <p className="user-location-p">Seville, Russia</p>
+              <p className="user-location-p">
+                {" "}
+                {authMember?.memberAddress
+                  ? authMember.memberAddress
+                  : "no address"}
+              </p>
             </Stack>
           </Stack>
 
