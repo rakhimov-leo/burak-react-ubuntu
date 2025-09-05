@@ -35,11 +35,11 @@ class OrderService {
 
   public async getMyOrders(input: OrderInquiry): Promise<Order[]> {
     try {
-      // axios.defaults.withCredentials = true;
+      // axios.defaults.withCredentials = true;   bu 1chi usul axios uchun. 
       const url = `${this.path}/order/all`;
       const query = `?page=${input.page}&limit=${input.limit}&orderStatus=${input.orderStatus}`;
 
-      const result = await axios.get(url + query, { withCredentials: true });
+      const result = await axios.get(url + query, { withCredentials: true }); // nu 2chi usul axios uchun
       console.log("getMyOrders:", result);
 
       return result.data;
