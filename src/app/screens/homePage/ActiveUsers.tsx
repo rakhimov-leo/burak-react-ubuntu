@@ -12,15 +12,12 @@ import { serverApi } from "../../../lib/config";
 import { Member } from "../../../lib/types/member";
 
 // ** REDUX SLICE & SELECTOR  **//
-const topUsersRetriever = createSelector(
-  retrieveTopUsers,
-  (topUsers) => ({ topUsers })
-);
-
-
+const topUsersRetriever = createSelector(retrieveTopUsers, (topUsers) => ({
+  topUsers,
+}));
 
 export default function ActiveUsers() {
-  const {topUsers} = useSelector(topUsersRetriever);
+  const { topUsers } = useSelector(topUsersRetriever);
   return (
     <div className="homepage">
       <div className="active-users-frame">
@@ -31,22 +28,22 @@ export default function ActiveUsers() {
               <CssVarsProvider>
                 {topUsers.length !== 0 ? (
                   topUsers.map((member: Member) => {
-                    const imagePath = `${serverApi}/uploads/${member.memberImage}`;
-                   return (
-                   <Card key={member._id} variant="outlined" className="user-card">
-                      <CardOverflow>
-                        <img
-                          className="user-image"
-                          src={imagePath}
-                          alt=""
-                        />
-                      </CardOverflow>
-                      <CardContent className="user-card-desc">
-                        <Typography level="body-md">
-                          {member.memberNick}
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    const imagePath = `${serverApi}/${member.memberImage}`;
+                    return (
+                      <Card
+                        key={member._id}
+                        variant="outlined"
+                        className="user-card"
+                      >
+                        <CardOverflow>
+                          <img className="user-image" src={imagePath} alt="" />
+                        </CardOverflow>
+                        <CardContent className="user-card-desc">
+                          <Typography level="body-md">
+                            {member.memberNick}
+                          </Typography>
+                        </CardContent>
+                      </Card>
                     );
                   })
                 ) : (
